@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    # ئەم بەشە بە گیتھەب دەڵێت هەموو کارەکان لەناو ئەم فۆڵدەرەدا بکە
     defaults:
       run:
         working-directory: "UltimateEngine External"
@@ -19,23 +18,21 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    # گۆڕینی جاڤا بۆ وەشانی 11 کە گونجاوە لەگەڵ پڕۆژەکەت
+    - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '11'
         distribution: 'temurin'
         cache: gradle
 
-    - name: Make gradlew executable or create it
+    # سڕینەوەی گرەیدڵە تێکچووەکە و دروستکردنەوەی دانەیەکی نوێ
+    - name: Fix and Generate Gradle Wrapper
       run: |
-        if [ -f "gradlew" ]; then
-          echo "gradlew found! Granting permission..."
-          chmod +x gradlew
-        else
-          echo "gradlew not found! Generating gradle wrapper..."
-          gradle wrapper
-          chmod +x gradlew
-        fi
+        rm -f gradlew gradlew.bat
+        rm -rf gradle/wrapper
+        gradle wrapper --gradle-version 7.3.3
+        chmod +x gradlew
 
     - name: Build with Gradle
       run: ./gradlew assembleDebug --stacktrace
@@ -44,5 +41,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: My-Android-App-APK
-        # لێرەدا پێی دەڵێین لەناو فۆڵدەرەکە بەدوای فایلە ئامادەکراوەکەدا بگەڕێ
         path: "UltimateEngine External/app/build/outputs/apk/debug/*.apk"
