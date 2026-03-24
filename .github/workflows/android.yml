@@ -12,7 +12,8 @@ jobs:
     
     defaults:
       run:
-        working-directory: "UltimateEngine External"
+        # لێرەدا ناوەکەمان گۆڕی بۆ ناوە نوێیەکە کە بۆشایی تێدا نییە
+        working-directory: "UltimateEngine_External"
 
     steps:
     - name: Checkout Code
@@ -38,5 +39,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: My-Android-App-APK
-        path: "UltimateEngine External/app/build/outputs/apk/debug/*.apk"
-#
+        # لێرەشدا ناوەکەمان گۆڕی بۆ فۆڵدەرە نوێیەکە
+        path: "UltimateEngine_External/app/build/outputs/apk/debug/*.apk"
